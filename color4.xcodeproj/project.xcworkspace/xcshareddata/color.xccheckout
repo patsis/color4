@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BD5CA67B-6411-4807-9D5E-C1F0A13855EB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>266E2CA1EDDDBAE20C9B6458197D228506C21F8E</key>
+		<string>https://bitbucket.org/patsis/colors.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>color4.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>266E2CA1EDDDBAE20C9B6458197D228506C21F8E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/patsis/colors.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>266E2CA1EDDDBAE20C9B6458197D228506C21F8E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>266E2CA1EDDDBAE20C9B6458197D228506C21F8E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>color</string>
+		</dict>
+	</array>
+</dict>
+</plist>
