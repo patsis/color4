@@ -8,14 +8,6 @@
 
 import SpriteKit
 
-//extension Array {
-//  func forEach(doThis: (element: Element) -> Void) {
-//    for e in self {
-//      doThis(element: e)
-//    }
-//  }
-//}
-
 //protocol ADSceneDelegate {
 //  func bannerHeight()->CGFloat
 //  func showAds()
@@ -23,10 +15,20 @@ import SpriteKit
 //  func showInterstitial()
 //  func purchased()->Bool
 //}
+struct TouchInfo {
+  var shapeID: Int
+  var touches: [Int]
+
+  public init(id: Int) {
+    shapeID = id
+    touches = []
+  }
+}
+
 
 class GameScene: SKScene {
   let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//  var adDelegate:ADSceneDelegate?
+
   
   //properties
   var scaleX:CGFloat = 1
@@ -34,10 +36,13 @@ class GameScene: SKScene {
   
   var unlockCount = 1
   var levelIndex:Int = -1
+
+  var touchInfoList: [TouchInfo] = []
   
   //menu
   var blurredNode:SKSpriteNode?
   var menuShowing:Bool = false
+  var colorButtonsEnabled = true
   var menuButton:SKSpriteNode?
   var mainMenuButton:SKSpriteNode?
   var continueButton:SKSpriteNode?
@@ -183,14 +188,17 @@ class GameScene: SKScene {
   }
   
   func showButtons() {
-    if (!appDelegate.isNormalGame) {
+    if appDelegate.gameType == 2 {
+      colorButtonsEnabled = false
       blueButton.isHidden = true
       greenButton.isHidden = true
       orangeButton.isHidden = true
       purpleButton.isHidden = true
+    } else {
+      colorButtonsEnabled = true
     }
+
     let x:CGFloat = (self.size.width / 2.0) - 268 + 70
-//    let bh = appDelegate.controller?.bannerHeight()
     let y:CGFloat = (container.frame.minY) / 2
     
     blueButton.position = CGPoint(x:x, y:y)
@@ -257,36 +265,106 @@ class GameScene: SKScene {
       
     }
   }
-  
+
+//  func shapeTouchList(shape: FLShape, shapes:[FLShape]) -> [Int] {
+//    var touchList:[Int] = []
+//
+//    for shape2 in shapes {
+//      if shape.id != shape2.id {
+//        if shape.touchesWith(shape2) {
+//          touchList.append(shape2.id)
+//        }
+//      }
+//    }
+//    return touchList
+//  }
+
+//  func debugTouches() {
+//    let STEP: Float = 8
+//    var flShapes: [FLShape] = []
+//    if let levels = appDelegate.jsonLevels {
+//      if let shapes = levels[levelIndex]["shapes"] as? [[String: AnyObject]] {
+//        for shape in shapes {
+//          if let shapeID = shape["id"] as? Int {
+//            if let points = shape["points"] as? [Float] {
+//              let shape = FLShape(id: shapeID, shape: points, step: STEP);
+//              flShapes.append(shape)
+//            }
+//          }
+//        }
+//      }
+//    }
+//
+//    NSLog("shapes created")
+//
+//    for shape in flShapes {
+//      let my = shapeTouchList(shape: shape, shapes: flShapes)
+//      let json = touchingShapesforShape(shape.id)
+//      if my.sorted() != json.sorted() {
+//        print("id: \(shape.id) my: \(my) json: \(json)")
+//      }
+//    }
+//  }
+
+
+
   func touchingShapesforShape(_ id:Int) ->[Int] {
-    if let levels = appDelegate.jsonLevels {
-      if let shapes = levels[levelIndex]["shapes"] as? [[String: AnyObject]] {
-        for shape in shapes {
-          if let shapeID = shape["id"] as? Int {
-            if (shapeID == id) {
-              if let shapeTouchArray = shape["touches"] as? [Int] {
-                return shapeTouchArray
-              }
-            }
-          }
-        }
-      }
+    if let a = touchInfoList.first(where: {$0.shapeID == id}) {
+      return a.touches
     }
     return []
+    /// depricated - read from JSON
+//    if let levels = appDelegate.jsonLevels {
+//      if let shapes = levels[levelIndex]["shapes"] as? [[String: AnyObject]] {
+//        for shape in shapes {
+//          if let shapeID = shape["id"] as? Int {
+//            if (shapeID == id) {
+//              if let shapeTouchArray = shape["touches"] as? [Int] {
+//                return shapeTouchArray
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+//    return []
   }
   
   
   func addLevelShapesToNode(_ node:SKSpriteNode) {
+//    NSLog("start level \(levelIndex)")
+
+    touchInfoList = []
+    let STEP: Float = 8
+    var flShapeList: [FLShape] = []
+
     if let levels = appDelegate.jsonLevels {
       if let shapes = levels[levelIndex]["shapes"] as? [[String: AnyObject]] {
         for shape in shapes {
           let shapeID = shape["id"] as! Int
           if let points = shape["points"] as? [Float] {
             addLevelShapeToNode(node, id:shapeID, points: points)
+            /// gather shapes to get Touches
+            let shape = FLShape(id: shapeID, shape: points, step: STEP);
+            flShapeList.append(shape)
           }
         }
       }
     }
+
+    for shape in flShapeList {
+      var touchInfo = TouchInfo(id: shape.id)
+      for iShape in flShapeList {
+        if shape.id != iShape.id {
+          if shape.touchesWith(iShape) {
+            touchInfo.touches.append(iShape.id)
+          }
+        }
+      }
+      touchInfoList.append(touchInfo)
+    }
+
+//    NSLog("end")
   }
   
   
@@ -300,9 +378,6 @@ class GameScene: SKScene {
       path.addCurve(      to: CGPoint(x: menuScaleX * CGFloat(points[idx+4]), y: menuScaleX * CGFloat(640-points[idx+5])),
                     control1: CGPoint(x: menuScaleX * CGFloat(points[idx+0]), y: menuScaleX * CGFloat(640-points[idx+1])),
                     control2: CGPoint(x: menuScaleX * CGFloat(points[idx+2]), y: menuScaleX * CGFloat(640-points[idx+3])))
-//      CGPathAddCurveToPoint(path, nil,  menuScaleX * CGFloat(points[idx+0]), menuScaleX * CGFloat(640-points[idx+1]),
-//        menuScaleX * CGFloat(points[idx+2]), menuScaleX * CGFloat(640-points[idx+3]),
-//        menuScaleX * CGFloat(points[idx+4]), menuScaleX * CGFloat(640-points[idx+5]))
       idx += 6
     }
     let sh = SKShapeNode()
@@ -350,6 +425,7 @@ class GameScene: SKScene {
     for (shape, value) in shapes {
       if shape.path!.contains(point, using: .evenOdd) {
 //      if (CGPathContainsPoint(shape.path, nil, point, true)) {
+//        print("shape id: \(value.id)")
         return (shape, value.id)
       }
     }
@@ -480,7 +556,7 @@ class GameScene: SKScene {
       self.run(appDelegate.successSoundAction)
 
       if (colorUndone == false) {
-        let name = appDelegate.isNormalGame ? "normalstars" : "frenzystars"
+        let name = appDelegate.getStarsName()
         var stars:[Int] = (UserDefaults.standard.object(forKey: name) ?? []) as! [Int]
         if !stars.contains(levelIndex) {
           stars.append(levelIndex)
@@ -635,19 +711,20 @@ class GameScene: SKScene {
   
   func touchedColorButton(_ point:CGPoint)->SKNode? {
     var node:SKNode?
-    var maxz:CGFloat = -1
-    for button:SKNode in [blueButton, greenButton, orangeButton, purpleButton] {
-      let rect = button.frame
-      if rect.contains(point) {
-        if (maxz < button.zPosition) {
-          node = button
-          maxz = button.zPosition
+    if colorButtonsEnabled {
+      var maxz:CGFloat = -1
+      for button:SKNode in [blueButton, greenButton, orangeButton, purpleButton] {
+        let rect = button.frame
+        if rect.contains(point) {
+          if (maxz < button.zPosition) {
+            node = button
+            maxz = button.zPosition
+          }
         }
       }
     }
     return node
   }
-  
   
   override func update(_ currentTime: TimeInterval) {
     for mnode:SKSpriteNode in [blueButton, greenButton, orangeButton, purpleButton] {
@@ -859,7 +936,6 @@ class GameScene: SKScene {
         point.x += 311
         point.y += 311
         for (shape, value) in shapes {
-//          if (CGPathContainsPoint(shape.path, nil, point, true)) {
           if shape.path!.contains(point, using: .evenOdd) {
             #if false //true for debug levels
               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (Int64)(3 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
@@ -892,7 +968,7 @@ class GameScene: SKScene {
               let color = colorForColorIndex(newColor)
               colorizeShape(shape, color: color)
               
-              if (!appDelegate.isNormalGame) {
+              if (appDelegate.gameType == 2) { /// frenzy
                 selectNextColorButton()
               }
               activeShape = nil
@@ -923,11 +999,9 @@ class GameScene: SKScene {
   }
   
   func checkLevelFinished() {
-//    var incorrect = false
     var incorrectShapes:[SKShapeNode] = []
     for (shape, value) in shapes {
       if value.colorIndex == 0 {
-        NSLog("INCOMPLETE")
         return
       }
       let touches = touchingShapesforShape(value.id)
@@ -943,13 +1017,11 @@ class GameScene: SKScene {
                 incorrectShapes.append(otherShape)
               }
             }
-//            incorrect = true
           }
         }
       }
     }
     if (incorrectShapes.count > 0) {
-      NSLog("INCORRECT")
       for shape in incorrectShapes {
         colorizeShape(shape, color: UIColor(hue: 0.0, saturation: 0.0, brightness: 1, alpha: 0.75))
       }

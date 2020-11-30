@@ -34,9 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var successSoundIndex = 0
   var clickSoundIndex = 0
   
-  var isNormalGame:Bool = true
-  var jsonNormalLevels:[[String: AnyObject]]?
-  var jsonFrenzyLevels:[[String: AnyObject]]?
+  var gameType:Int = 0
+  var jsonLevels:[[String: AnyObject]]?
+//  var jsonNormalLevels1:[[String: AnyObject]]?
+//  var jsonNormalLevels2:[[String: AnyObject]]?
+//  var jsonFrenzyLevels:[[String: AnyObject]]?
   
   var musicDisabled:Bool {
     get {
@@ -69,35 +71,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
   }
   
-  var jsonLevels:[[String: AnyObject]]? {
-    get {
-      return isNormalGame ? jsonNormalLevels : jsonFrenzyLevels
-    }
-  }
+//  var jsonLevels:[[String: AnyObject]]? {
+//    get {
+//      switch gameType {
+//        case 0: return jsonNormalLevels1
+//        case 1: return jsonNormalLevels2
+//        default: return jsonFrenzyLevels
+//      }
+//    }
+//  }
   
   var unlockedLevel:Int {
     get {
-      let key = isNormalGame ? "unlockedNormalLevel" : "unlockedFrenzyLevel"
+      let key:String
+      switch gameType {
+        case 0: key =  "unlockedNormalLevel"
+        case 1: key =  "unlockedNormalLevel2"
+        default: key =  "unlockedFrenzyLevel"
+      }
+      //      let key = isNormalGame ? "unlockedNormalLevel" : "unlockedFrenzyLevel"
       return UserDefaults.standard.integer(forKey: key)
     }
     set {
       let value = min((jsonLevels?.count)!-1, newValue)
-      let key = isNormalGame ? "unlockedNormalLevel" : "unlockedFrenzyLevel"
+      let key:String
+      switch gameType {
+        case 0: key =  "unlockedNormalLevel"
+        case 1: key =  "unlockedNormalLevel2"
+        default: key =  "unlockedFrenzyLevel"
+      }
       UserDefaults.standard.set(value, forKey: key)
     }
   }
+
+  func getStarsName() -> String {
+    switch gameType {
+      case 0: return "normalstars"
+      case 1: return "normal2stars"
+      default: return "frenzystars"
+    }
+  }
   
-  fileprivate var normalScrollPosition:CGFloat = 0
-  fileprivate var frenzyScrollPosition:CGFloat = 0
+  fileprivate var normal1ScrollPosition: CGFloat = 0
+  fileprivate var normal2ScrollPosition: CGFloat = 0
+  fileprivate var frenzyScrollPosition: CGFloat = 0
   var scrollPosition:CGFloat {
     get {
-      return  isNormalGame ? normalScrollPosition : frenzyScrollPosition
+      switch gameType {
+        case 0: return normal1ScrollPosition
+        case 1: return normal2ScrollPosition
+        default: return frenzyScrollPosition
+      }
+
     }
     set {
-      if isNormalGame {
-        normalScrollPosition = newValue
-      } else {
-        frenzyScrollPosition = newValue
+      switch gameType {
+        case 0: normal1ScrollPosition = newValue
+        case 1: normal2ScrollPosition = newValue
+        default: frenzyScrollPosition = newValue
       }
     }
   }
@@ -119,10 +150,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //initialize music
     loadMusic1()
     loadMusic2()
-    //intialize levels
-    jsonNormalLoad()
-    jsonFrenzyLoad()
-    
+//    //intialize levels
+//    jsonNormalLoad()
+//    jsonFrenzyLoad()    
     return true
   }
   
@@ -154,32 +184,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   
   // MARK: - JSON
-  
-  func jsonNormalLoad() {
-    if let path = Bundle.main.path(forResource: "normal", ofType: "json") {
+
+  func setGameType(type: Int) {
+    jsonLevels = []
+    gameType = type
+    let fileName: String
+    switch gameType {
+      case 0: fileName = "normal1"
+      case 1: fileName = "normal2"
+      default: fileName = "frenzy"
+    }
+    if let path = Bundle.main.path(forResource: fileName, ofType: "json") {
       if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
         do {
           let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
-          jsonNormalLevels = json["levels"] as? [[String:AnyObject]]
+          jsonLevels = json["levels"] as? [[String:AnyObject]]
         } catch let error as NSError {
           print("Failed to load: \(error.localizedDescription)")
         }
       }
     }
   }
-  
-  func jsonFrenzyLoad() {
-    if let path = Bundle.main.path(forResource: "frenzy", ofType: "json") {
-      if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
-        do {
-          let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
-          jsonFrenzyLevels = json["levels"] as? [[String:AnyObject]]
-        } catch let error as NSError {
-          print("Failed to load: \(error.localizedDescription)")
-        }
-      }
-    }
-  }
+
+
+//  func jsonNormalLoad() {
+//    if let path = Bundle.main.path(forResource: "normal2", ofType: "json") {
+//      if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+//        do {
+//          let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
+//          jsonNormalLevels = json["levels"] as? [[String:AnyObject]]
+//        } catch let error as NSError {
+//          print("Failed to load: \(error.localizedDescription)")
+//        }
+//      }
+//    }
+//  }
+//
+//  func jsonFrenzyLoad() {
+//    if let path = Bundle.main.path(forResource: "frenzy", ofType: "json") {
+//      if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+//        do {
+//          let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
+//          jsonFrenzyLevels = json["levels"] as? [[String:AnyObject]]
+//        } catch let error as NSError {
+//          print("Failed to load: \(error.localizedDescription)")
+//        }
+//      }
+//    }
+//  }
   
   
   func setupAudioPlayerWithFile(_ file:NSString, type:NSString) -> AVAudioPlayer?  {
@@ -284,7 +336,7 @@ extension AVAudioPlayer {
   }
 }
 
-func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
-  //  Swift.print(items[0], separator:separator, terminator: terminator)
-}
+//func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+//  Swift.print(items[0], separator:separator, terminator: terminator)
+//}
 

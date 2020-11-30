@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="g03.svg"
+   inkscape:version="1.0.1 (c497b03c, 2020-09-10)"
+   width="640"
+   height="640"
+   viewBox="0 0 640 640"
+   version="1.1"
+   id="svg1145">
+  <defs
+     id="defs1139" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.0330162"
+     inkscape:cx="382.84897"
+     inkscape:cy="325.46301"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="2105"
+     inkscape:window-height="1183"
+     inkscape:window-x="50"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     units="px"
+     objecttolerance="10"
+     inkscape:snap-to-guides="false"
+     inkscape:snap-grids="true"
+     gridtolerance="10"
+     inkscape:showpageshadow="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1726"
+       dotted="false"
+       empspacing="1"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1142">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       y="-86.264732"
+       x="962.61102"
+       height="103.51768"
+       width="136.45511"
+       id="rect1046"
+       style="fill:#98a7e4;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers" />
+    <rect
+       y="45.485039"
+       x="962.61102"
+       height="98.812325"
+       width="141.16046"
+       id="rect1048"
+       style="fill:#afe498;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers" />
+    <rect
+       y="185.07706"
+       x="975.15863"
+       height="97.243874"
+       width="130.18132"
+       id="rect1050"
+       style="fill:#f0857a;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers" />
+    <rect
+       y="313.68991"
+       x="973.59021"
+       height="95.675423"
+       width="136.45511"
+       id="rect1052"
+       style="fill:#e498e0;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers" />
+    <path
+       id="rect1054"
+       style="fill:#afe498;fill-opacity:1;stroke:none;stroke-width:0.997698;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers"
+       d="m 320,82 c -27.33333,50 -54.66667,100 -82,150 -56,11 -112,22 -168,33 39.33333,41 78.66667,82 118,123 -7.66667,56.33333 -15.33333,112.66667 -23,169 51.66667,-24.33333 103.33333,-48.66667 155,-73 0,-134 0,-268 0,-402 z"
+       sodipodi:nodetypes="ccccccc" />
+    <path
+       id="path1118"
+       style="fill:#f0857a;fill-opacity:1;stroke:none;stroke-width:0.997698;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers"
+       d="m 320,484 156,73 c 0,0 -18.66373,-133.86108 -23,-170 31.79057,-34.36675 115,-125 115,-125 L 402,232 c 0,0 -80.94243,-154.05834 -82,-150 0.63816,128.26952 0,402 0,402 z"
+       sodipodi:nodetypes="ccccccc" />
+    <path
+       id="path1121"
+       style="fill:#98a7e4;fill-opacity:1;stroke:none;stroke-width:0.997698;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers"
+       d="m 640,440 c -62.33333,-17.66667 -124.66667,-35.33333 -187,-53 7.12776,55.62346 23,170 23,170 -52,-24.33333 -104,-48.66667 -156,-73 -51.66667,24.33333 -103.33333,48.66667 -155,73 7.66667,-56.33333 15.33333,-112.66667 23,-169 -62.66667,22 -125.333333,44 -188,66 0,62 0,124 0,186 213.33333,0 426.66667,0 640,0 0,-66.66667 0,-133.33333 0,-200 z"
+       sodipodi:nodetypes="cccccccccc" />
+    <path
+       d="m 640,0 c -79.33333,77.333333 -158.66667,154.66667 -238,232 55.33333,10 110.66667,20 166,30 -38.33333,41.66667 -76.66667,83.33333 -115,125 62.33333,17.66667 124.66667,35.33333 187,53 0,-146.66667 0,-293.33333 0,-440 z"
+       style="fill:#e498e0;fill-opacity:1;stroke:none;stroke-width:0.997698;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers"
+       id="path1140"
+       sodipodi:nodetypes="cccccc" />
+    <path
+       id="path1135"
+       style="fill:#e498e0;fill-opacity:1;stroke:none;stroke-width:0.997698;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers"
+       d="M 0,0 V 454 L 188,388 70,265 238,232 C 238,232 74.9286,73.039644 0,0 Z"
+       sodipodi:nodetypes="cccccc" />
+    <path
+       id="path1130"
+       style="fill:#98a7e4;fill-opacity:1;stroke:none;stroke-width:0.997698;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers"
+       d="m 0,0 c 79.333333,77.333333 158.66667,154.66667 238,232 27.33333,-50 54.66667,-100 82,-150 27.33333,50 54.66667,100 82,150 C 481.33333,154.66667 560.66667,77.333333 640,0 426.66667,0 213.33333,0 0,0 Z"
+       sodipodi:nodetypes="cccccc" />
+  </g>
+</svg>

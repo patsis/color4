@@ -72,7 +72,12 @@ class MenuScene: SKScene {
 
     
     let labelmode = SKLabelNode(fontNamed:"Avenir-Light")
-    labelmode.text = appDelegate.isNormalGame ? "N O R M A L" : "F R E N Z Y"
+    switch appDelegate.gameType {
+      case 0: labelmode.text = "N O R M A L  I"
+      case 1: labelmode.text = "N O R M A L  II"
+      default: labelmode.text = "F R E N Z Y"
+    }
+
     labelmode.fontSize = 50
     labelmode.position = CGPoint(x: size.width/2, y: 4.4 * size.height/5)
     self.addChild(labelmode)
@@ -118,15 +123,10 @@ class MenuScene: SKScene {
               let mv:CGFloat = 10
               path.move(to: CGPoint(x: mv + menuScaleX * CGFloat(points[0]),
                                     y: mv + menuScaleX * CGFloat(points[1])))
-              //CGPathMoveToPoint(path, nil, mv + menuScaleX * CGFloat(points[0]), mv + menuScaleX * CGFloat(points[1]))
               while idx < points.count {
                 path.addCurve(      to: CGPoint(x: mv + menuScaleX * CGFloat(points[idx+4]), y:mv + menuScaleX * CGFloat(points[idx+5])),
                               control1: CGPoint(x: mv + menuScaleX * CGFloat(points[idx+0]), y:mv + menuScaleX * CGFloat(points[idx+1])),
                               control2: CGPoint(x: mv + menuScaleX * CGFloat(points[idx+2]), y:mv + menuScaleX * CGFloat(points[idx+3])))
-//                CGPathAddCurveToPoint(path, nil,
-//                  mv + menuScaleX * CGFloat(points[idx+0]), mv + menuScaleX * CGFloat(points[idx+1]),
-//                  mv + menuScaleX * CGFloat(points[idx+2]), mv + menuScaleX * CGFloat(points[idx+3]),
-//                  mv + menuScaleX * CGFloat(points[idx+4]), mv + menuScaleX * CGFloat(points[idx+5]))
                 idx+=6
               }
               path.closeSubpath()
@@ -137,7 +137,7 @@ class MenuScene: SKScene {
         }
       }
     }
-
+// mx, my, c1x, c1y, c2x, x2t, px, py, 
     let image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     let texture = SKTexture(image: image!)
@@ -155,7 +155,7 @@ class MenuScene: SKScene {
   }
   
   func loadStars() {
-    let name = appDelegate.isNormalGame ? "normalstars" : "frenzystars"
+    let name = appDelegate.getStarsName()
     stars = (UserDefaults.standard.object(forKey: name) ?? []) as! [Int]
   }
   
@@ -321,6 +321,7 @@ class MenuScene: SKScene {
                 self.showLevel(self.levelSelected)
               }
             }
+            break
           }
         }
       }

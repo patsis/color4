@@ -17,7 +17,8 @@ class MainMenuScene: SKScene {
   typealias RectTuple = (sprite:SKSpriteNode, size:Int, velocity:CGVector)
   
   var scaleX:CGFloat = 1
-  var normalButton:SKSpriteNode
+  var normal1Button:SKSpriteNode
+  var normal2Button:SKSpriteNode
   var frenzyButton:SKSpriteNode
   var frenzyLocked:Bool = false
   var activeTouch:UITouch?
@@ -30,8 +31,12 @@ class MainMenuScene: SKScene {
   var bottomButtons:[SKSpriteNode?] = []
 
   override init(size: CGSize) {
-    normalButton = SKSpriteNode(imageNamed: "normalButton")
-    frenzyButton = SKSpriteNode(imageNamed: "frenzyButton")
+//    normalButton = SKSpriteNode(imageNamed: "normalButton")
+//    frenzyButton = SKSpriteNode(imageNamed: "frenzyButton")
+    normal1Button = SKSpriteNode(imageNamed: "normal1MenuButton")
+    normal2Button = SKSpriteNode(imageNamed: "normal2MenuButton")
+    frenzyButton = SKSpriteNode(imageNamed: "frenzyMenuButton")
+
     super.init(size: size)
 //    adDelegate = appDelegate.controller
     self.scaleX = appDelegate.scaleX
@@ -110,13 +115,18 @@ class MainMenuScene: SKScene {
   }
   
   func addButtons() {
-    let space:CGFloat = 4.0
-    normalButton.position = CGPoint(x: -normalButton.size.width, y: self.size.height/2 + normalButton.size.height/2)
-    normalButton.zPosition = 1
-    addChild(normalButton)
+    let buttonHeight = normal1Button.size.height + 10
+    let space:CGFloat = 20.0
+    normal1Button.position = CGPoint(x: -normal1Button.size.width, y: self.size.height/2 + buttonHeight * 1.2)
+    normal1Button.zPosition = 1
+    addChild(normal1Button)
+
+    normal2Button.position = CGPoint(x: -normal2Button.size.width, y: self.size.height/2)
+    normal2Button.zPosition = 1
+    addChild(normal2Button)
+
     
-    
-    frenzyButton.position = CGPoint(x: self.size.width + frenzyButton.size.width, y: self.size.height/2 - frenzyButton.size.height/2 + space)
+    frenzyButton.position = CGPoint(x: -frenzyButton.size.width, y: self.size.height/2 - buttonHeight * 1.2)
     frenzyButton.zPosition = 1
     addChild(frenzyButton)
     
@@ -167,12 +177,17 @@ class MainMenuScene: SKScene {
       frenzyLocked = false
     }
     
-    let action1 = SKAction.moveTo(x: normalButton.size.width/2-10, duration: 0.5)
-    action1.timingMode = SKActionTimingMode.easeOut
-    normalButton.run(action1)
-    let action2 = SKAction.moveTo(x: self.size.width - frenzyButton.size.width/2+11, duration: 0.5)
-    action2.timingMode = SKActionTimingMode.easeOut
-    frenzyButton.run(action2)
+    let actionNormal1 = SKAction.moveTo(x: space + normal1Button.size.width/2, duration: 0.6)
+    actionNormal1.timingMode = SKActionTimingMode.easeInEaseOut
+    normal1Button.run(actionNormal1)
+
+    let actionNormal2 = SKAction.moveTo(x: self.size.width/2, duration: 0.8)
+    actionNormal2.timingMode = SKActionTimingMode.easeInEaseOut
+    normal2Button.run(actionNormal2)
+
+    let actionFrenzy = SKAction.moveTo(x: self.size.width - frenzyButton.size.width/2 - space, duration: 1)
+    actionFrenzy.timingMode = SKActionTimingMode.easeInEaseOut
+    frenzyButton.run(actionFrenzy)
   }
   
   
@@ -289,8 +304,12 @@ class MainMenuScene: SKScene {
     if (activeTouch == nil) {
       if let touch = touches.first{
         let pos = touch.location(in: self)
-        if (self.atPoint(pos) == normalButton) {
-          activeButton = normalButton
+        if (self.atPoint(pos) == normal1Button) {
+          activeButton = normal1Button
+          activeTouch = touch
+          return
+        } else if (self.atPoint(pos) == normal2Button) {
+          activeButton = normal2Button
           activeTouch = touch
           return
         } else if (self.atPoint(pos) == frenzyButton) {
@@ -336,7 +355,7 @@ class MainMenuScene: SKScene {
       return
     }
     
-    if ([normalButton, frenzyButton].contains(button)) {
+    if ([normal1Button, normal2Button, frenzyButton].contains(button)) {
       let pos = touch.location(in: self)
       if (self.atPoint(pos) == activeButton) {
         if frenzyLocked  == true && activeButton == frenzyButton {
@@ -347,9 +366,8 @@ class MainMenuScene: SKScene {
           }
         } else {
           self.run(appDelegate.clickSoundAction)
-          //button selected - hilight
-//          let whiteNode = SKSpriteNode(color: UIColor.whiteColor(), size: CGSize(width: 437, height: 148))
-          let whiteNode = activeButton == frenzyButton ? SKSpriteNode(imageNamed: "frenzyButtonWhite") : SKSpriteNode(imageNamed: "normalButtonWhite")
+//          let whiteNode = activeButton == frenzyButton ? SKSpriteNode(imageNamed: "frenzyButtonWhite") : SKSpriteNode(imageNamed: "normalButtonWhite")
+          let whiteNode = SKSpriteNode(imageNamed: "whiteMenuButton")
           whiteNode.alpha = 0
           whiteNode.position = activeButton!.position
           whiteNode.zPosition = 1
@@ -363,10 +381,12 @@ class MainMenuScene: SKScene {
             ]))
           
           DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((Int64)(1 * NSEC_PER_SEC)) / Double(NSEC_PER_SEC)) {
-            if (button == self.normalButton) {
-              self.appDelegate.isNormalGame = true
+            if button == self.normal1Button {
+              self.appDelegate.setGameType(type: 0)
+            } else if button == self.normal2Button {
+              self.appDelegate.setGameType(type: 1)
             } else {
-              self.appDelegate.isNormalGame = false
+              self.appDelegate.setGameType(type: 2)
             }
             self.showMenuScene()
           }
