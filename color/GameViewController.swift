@@ -66,17 +66,31 @@ class GameViewController: UIViewController, MFMailComposeViewControllerDelegate,
       UserDefaults.standard.set(currentAppVersion, forKey: "appVersion")
     }
     
-    let scene = MainMenuScene(size: appDelegate.viewSize)
-    scene.scaleX = appDelegate.scaleX
-
-    
-    scene.scaleMode = .aspectFit
-    let skView = self.view as! SKView
-    skView.ignoresSiblingOrder = false
-//    skView.showsFPS = true
-    skView.presentScene(scene)
+     
+//    let scene = MainMenuScene(size: appDelegate.viewSize)
+//    scene.scaleX = appDelegate.scaleX
+//    
+//    scene.scaleMode = .aspectFit
+//    let skView = self.view as! SKView
+//    skView.ignoresSiblingOrder = false
+//    skView.presentScene(scene)
   }
 
+   override func viewDidLayoutSubviews() {
+      if let view = self.view as? SKView {
+         appDelegate.safeAreaInsets = view.safeAreaInsets
+      }
+      
+      let scene = MainMenuScene(size: appDelegate.viewSize)
+      scene.scaleX = appDelegate.scaleX
+      
+      scene.scaleMode = .aspectFit
+      let skView = self.view as! SKView
+      skView.ignoresSiblingOrder = false
+      skView.presentScene(scene)
+      
+
+   }
   
   // MARK: - UIControlView
   override func viewWillAppear(_ animated: Bool) {
