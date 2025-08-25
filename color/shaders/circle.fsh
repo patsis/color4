@@ -13,6 +13,7 @@ void main( void ) {
 	float d = max(distance(u_center.xy, lt), max(distance(u_center.xy, rt), max(distance(u_center.xy, lb), distance(u_center.xy, rb))));
 	float radius = d * (u_elapsed_time/u_total_animation_duration);
 
+   // way 1
 	// Background layer
 	vec4 layer1 = SKDefaultShading();
 
@@ -21,5 +22,13 @@ void main( void ) {
 
 	// Blend the two
 	gl_FragColor = mix(layer1, layer2, layer2.a);
+   
+   
+   // way2
+//   // Circle
+//   vec4 layer = circle(uv, u_center.xy, radius);
+//   
+//   // Blend the two
+//   gl_FragColor = mix(SKDefaultShading(), layer, layer.a);   
 }
 
