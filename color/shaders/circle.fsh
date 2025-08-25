@@ -29,6 +29,6 @@ void main( void ) {
 //   vec4 layer = circle(uv, u_center.xy, radius);
 //   
 //   // Blend the two
-//   gl_FragColor = mix(SKDefaultShading(), layer, layer.a);   
+//   gl_FragColor = mix(SKDefaultShading(), layer, layer.a);
 }
 
